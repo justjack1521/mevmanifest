@@ -1,0 +1,30 @@
+syntax ="proto3";
+
+package manifest;
+
+option go_package = "github.com/justjack1521/mevmanifest/pkg/genproto/mevmanifest";
+
+message Manifest {
+  string version = 1;
+  repeated File files = 2;
+  repeated Bundle bundles = 3;
+}
+
+message File {
+  string path = 1;
+  string checksum = 2;
+  string download_path = 3;
+  repeated PatchFile patches = 4;
+}
+
+message PatchFile {
+  string version = 1;
+  string checksum = 2;
+  int32 size = 3;
+  string download_path = 4;
+}
+
+message Bundle {
+  string version = 1;
+  string download_path = 2;
+}
