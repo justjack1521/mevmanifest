@@ -26,3 +26,7 @@ WHERE Application = ?;
 -- name: CreateApplicationVersion :exec
 INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
 VALUES (?, ?, ?, ?);
+
+-- name: CreateApplicationFile :exec
+INSERT INTO ApplicationFile (Path, Size, TimeStamp, Application)
+VALUES (?, ?, ?, ?);

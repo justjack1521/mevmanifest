@@ -9,6 +9,28 @@ import (
 	"context"
 )
 
+const createApplicationFile = `-- name: CreateApplicationFile :exec
+INSERT INTO ApplicationFile (Path, Size, TimeStamp, Application)
+VALUES (?, ?, ?, ?)
+`
+
+type CreateApplicationFileParams struct {
+	Path        string
+	Size        int64
+	Timestamp   int64
+	Application string
+}
+
+func (q *Queries) CreateApplicationFile(ctx context.Context, arg CreateApplicationFileParams) error {
+	_, err := q.db.ExecContext(ctx, createApplicationFile,
+		arg.Path,
+		arg.Size,
+		arg.Timestamp,
+		arg.Application,
+	)
+	return err
+}
+
 const createApplicationFileTable = `-- name: CreateApplicationFileTable :exec
 CREATE TABLE IF NOT EXISTS ApplicationFile (
     Path        text    not null,
