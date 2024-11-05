@@ -13,8 +13,9 @@ message Manifest {
 message File {
   string path = 1;
   string checksum = 2;
-  string download_path = 3;
-  repeated PatchFile patches = 4;
+  int32 size = 3;
+  string download_path = 4;
+  repeated PatchFile patches = 5;
 }
 
 message PatchFile {
