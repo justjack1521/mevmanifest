@@ -21,4 +21,8 @@ WHERE Name = ? LIMIT 1;
 
 -- name: GetApplicationFiles :many
 SELECT * FROM ApplicationFile
-WHERE Application = ?
+WHERE Application = ?;
+
+-- name: CreateApplicationVersion :exec
+INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
+VALUES (?, ?, ?, ?);

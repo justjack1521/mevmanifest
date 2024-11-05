@@ -23,6 +23,28 @@ func (q *Queries) CreateApplicationFileTable(ctx context.Context) error {
 	return err
 }
 
+const createApplicationVersion = `-- name: CreateApplicationVersion :exec
+INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
+VALUES (?, ?, ?, ?)
+`
+
+type CreateApplicationVersionParams struct {
+	Name  string
+	Major int64
+	Minor int64
+	Patch int64
+}
+
+func (q *Queries) CreateApplicationVersion(ctx context.Context, arg CreateApplicationVersionParams) error {
+	_, err := q.db.ExecContext(ctx, createApplicationVersion,
+		arg.Name,
+		arg.Major,
+		arg.Minor,
+		arg.Patch,
+	)
+	return err
+}
+
 const createApplicationVersionTable = `-- name: CreateApplicationVersionTable :exec
 CREATE TABLE IF NOT EXISTS ApplicationVersion (
     Name  text constraint ApplicationVersion_pk primary key,
