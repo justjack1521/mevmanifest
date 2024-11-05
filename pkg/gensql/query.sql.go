@@ -9,6 +9,34 @@ import (
 	"context"
 )
 
+const createApplicationFileTable = `-- name: CreateApplicationFileTable :exec
+CREATE TABLE IF NOT EXISTS ApplicationFile (
+    Path        text    not null,
+    Size        integer not null,
+    TimeStamp   integer not null,
+    Application text    not null
+)
+`
+
+func (q *Queries) CreateApplicationFileTable(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, createApplicationFileTable)
+	return err
+}
+
+const createApplicationVersionTable = `-- name: CreateApplicationVersionTable :exec
+CREATE TABLE IF NOT EXISTS ApplicationVersion (
+    Name  text constraint ApplicationVersion_pk primary key,
+    Major integer default 0 not null,
+    Minor integer default 0 not null,
+    Patch integer default 0 not null
+)
+`
+
+func (q *Queries) CreateApplicationVersionTable(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, createApplicationVersionTable)
+	return err
+}
+
 const getApplicationFiles = `-- name: GetApplicationFiles :many
 SELECT path, size, timestamp, application FROM ApplicationFile
 WHERE Application = ?
