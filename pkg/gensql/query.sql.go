@@ -81,6 +81,28 @@ func (q *Queries) CreateApplicationVersionTable(ctx context.Context) error {
 	return err
 }
 
+const getApplicationFile = `-- name: GetApplicationFile :one
+SELECT path, size, timestamp, application FROM ApplicationFile
+WHERE Path = ? AND Application = ? LIMIT 1
+`
+
+type GetApplicationFileParams struct {
+	Path        string
+	Application string
+}
+
+func (q *Queries) GetApplicationFile(ctx context.Context, arg GetApplicationFileParams) (ApplicationFile, error) {
+	row := q.db.QueryRowContext(ctx, getApplicationFile, arg.Path, arg.Application)
+	var i ApplicationFile
+	err := row.Scan(
+		&i.Path,
+		&i.Size,
+		&i.Timestamp,
+		&i.Application,
+	)
+	return i, err
+}
+
 const getApplicationFiles = `-- name: GetApplicationFiles :many
 SELECT path, size, timestamp, application FROM ApplicationFile
 WHERE Application = ?

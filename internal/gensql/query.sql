@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS ApplicationFile (
 SELECT * FROM ApplicationVersion
 WHERE Name = ? LIMIT 1;
 
+-- name: GetApplicationFile :one
+SELECT * FROM ApplicationFile
+WHERE Path = ? AND Application = ? LIMIT 1;
+
 -- name: GetApplicationFiles :many
 SELECT * FROM ApplicationFile
 WHERE Application = ?;
