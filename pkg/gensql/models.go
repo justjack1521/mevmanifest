@@ -7,6 +7,7 @@ package mevmanifest
 type ApplicationFile struct {
 	Path        string
 	Size        int64
+	Checksum    string
 	Timestamp   int64
 	Application string
 }

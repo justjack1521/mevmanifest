@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS ApplicationVersion (
 CREATE TABLE IF NOT EXISTS ApplicationFile (
     Path        text    not null,
     Size        integer not null,
+    Checksum    varchar(64) not null ,
     TimeStamp   integer not null,
     Application text    not null
 );
@@ -32,5 +33,5 @@ INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
 VALUES (?, ?, ?, ?);
 
 -- name: CreateApplicationFile :exec
-INSERT INTO ApplicationFile (Path, Size, TimeStamp, Application)
-VALUES (?, ?, ?, ?);
+INSERT INTO ApplicationFile (Path, Size, Checksum, TimeStamp, Application)
+VALUES (?, ?, ?, ?, ?);

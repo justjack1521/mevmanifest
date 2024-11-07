@@ -10,6 +10,7 @@ create table ApplicationFile
 (
     Path        text    not null,
     Size        integer not null,
+    Checksum    varchar(64) not null ,
     TimeStamp   integer not null,
     Application text    not null
 );

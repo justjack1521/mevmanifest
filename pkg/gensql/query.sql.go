@@ -10,13 +10,14 @@ import (
 )
 
 const createApplicationFile = `-- name: CreateApplicationFile :exec
-INSERT INTO ApplicationFile (Path, Size, TimeStamp, Application)
-VALUES (?, ?, ?, ?)
+INSERT INTO ApplicationFile (Path, Size, Checksum, TimeStamp, Application)
+VALUES (?, ?, ?, ?, ?)
 `
 
 type CreateApplicationFileParams struct {
 	Path        string
 	Size        int64
+	Checksum    string
 	Timestamp   int64
 	Application string
 }
@@ -25,6 +26,7 @@ func (q *Queries) CreateApplicationFile(ctx context.Context, arg CreateApplicati
 	_, err := q.db.ExecContext(ctx, createApplicationFile,
 		arg.Path,
 		arg.Size,
+		arg.Checksum,
 		arg.Timestamp,
 		arg.Application,
 	)
@@ -35,6 +37,7 @@ const createApplicationFileTable = `-- name: CreateApplicationFileTable :exec
 CREATE TABLE IF NOT EXISTS ApplicationFile (
     Path        text    not null,
     Size        integer not null,
+    Checksum    varchar(64) not null ,
     TimeStamp   integer not null,
     Application text    not null
 )
@@ -82,7 +85,7 @@ func (q *Queries) CreateApplicationVersionTable(ctx context.Context) error {
 }
 
 const getApplicationFile = `-- name: GetApplicationFile :one
-SELECT path, size, timestamp, application FROM ApplicationFile
+SELECT path, size, checksum, timestamp, application FROM ApplicationFile
 WHERE Path = ? AND Application = ? LIMIT 1
 `
 
@@ -97,6 +100,7 @@ func (q *Queries) GetApplicationFile(ctx context.Context, arg GetApplicationFile
 	err := row.Scan(
 		&i.Path,
 		&i.Size,
+		&i.Checksum,
 		&i.Timestamp,
 		&i.Application,
 	)
@@ -104,7 +108,7 @@ func (q *Queries) GetApplicationFile(ctx context.Context, arg GetApplicationFile
 }
 
 const getApplicationFiles = `-- name: GetApplicationFiles :many
-SELECT path, size, timestamp, application FROM ApplicationFile
+SELECT path, size, checksum, timestamp, application FROM ApplicationFile
 WHERE Application = ?
 `
 
@@ -120,6 +124,7 @@ func (q *Queries) GetApplicationFiles(ctx context.Context, application string) (
 		if err := rows.Scan(
 			&i.Path,
 			&i.Size,
+			&i.Checksum,
 			&i.Timestamp,
 			&i.Application,
 		); err != nil {
