@@ -14,7 +14,7 @@ message File {
   string id = 1;
   string path = 2;
   string checksum = 3;
-  int32 size = 4;
+  int64 size = 4;
   string download_path = 5;
   repeated PatchFile patches = 6;
 }
@@ -22,11 +22,13 @@ message File {
 message PatchFile {
   string version = 1;
   string checksum = 2;
-  int32 size = 3;
+  int64 size = 3;
   string download_path = 4;
 }
 
 message Bundle {
   string version = 1;
   string download_path = 2;
+  int64 size = 3;
+  string checksum = 4;
 }
