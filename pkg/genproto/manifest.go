@@ -12,3 +12,12 @@ func (x *Manifest) ContainsVersion(version string) bool {
 	}
 	return false
 }
+
+func (x *Manifest) BundleForVersion(version string) *Bundle {
+	for _, b := range x.Bundles {
+		if b.Version == version {
+			return b
+		}
+	}
+	return nil
+}
