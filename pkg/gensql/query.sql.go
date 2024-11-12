@@ -12,6 +12,10 @@ import (
 const createApplicationFile = `-- name: CreateApplicationFile :exec
 INSERT INTO ApplicationFile (Path, Size, Checksum, TimeStamp, Application)
 VALUES (?, ?, ?, ?, ?)
+ON CONFLICT (Path, Application) DO UPDATE
+SET Size = EXCLUDED.Size,
+    Checksum = EXCLUDED.Checksum,
+    TimeStamp = EXCLUDED.TimeStamp
 `
 
 type CreateApplicationFileParams struct {
@@ -39,7 +43,8 @@ CREATE TABLE IF NOT EXISTS ApplicationFile (
     Size        integer not null,
     Checksum    varchar(64) not null ,
     TimeStamp   integer not null,
-    Application text    not null
+    Application text    not null,
+    PRIMARY KEY (Path, Application)
 )
 `
 

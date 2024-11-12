@@ -12,5 +12,6 @@ create table ApplicationFile
     Size        integer not null,
     Checksum    varchar(64) not null ,
     TimeStamp   integer not null,
-    Application text    not null
+    Application text    not null,
+    PRIMARY KEY (Path, Application)
 );
