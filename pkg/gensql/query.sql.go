@@ -157,3 +157,25 @@ func (q *Queries) GetApplicationVersion(ctx context.Context, name string) (Appli
 	)
 	return i, err
 }
+
+const updateApplicationVersion = `-- name: UpdateApplicationVersion :exec
+UPDATE ApplicationVersion SET Major = ?, Minor = ?, Patch = ?
+WHERE Name = ?
+`
+
+type UpdateApplicationVersionParams struct {
+	Major int64
+	Minor int64
+	Patch int64
+	Name  string
+}
+
+func (q *Queries) UpdateApplicationVersion(ctx context.Context, arg UpdateApplicationVersionParams) error {
+	_, err := q.db.ExecContext(ctx, updateApplicationVersion,
+		arg.Major,
+		arg.Minor,
+		arg.Patch,
+		arg.Name,
+	)
+	return err
+}

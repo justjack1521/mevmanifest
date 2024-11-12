@@ -32,6 +32,10 @@ WHERE Application = ?;
 INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
 VALUES (?, ?, ?, ?);
 
+-- name: UpdateApplicationVersion :exec
+UPDATE ApplicationVersion SET Major = ?, Minor = ?, Patch = ?
+WHERE Name = ?;
+
 -- name: CreateApplicationFile :exec
 INSERT INTO ApplicationFile (Path, Size, Checksum, TimeStamp, Application)
 VALUES (?, ?, ?, ?, ?);
