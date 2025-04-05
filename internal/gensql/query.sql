@@ -37,6 +37,7 @@ VALUES (?, ?, ?, ?)
     Minor = EXCLUDED.Minor,
     Patch = EXCLUDED.Patch;
 
+
 -- name: UpdateApplicationVersion :exec
 UPDATE ApplicationVersion SET Major = ?, Minor = ?, Patch = ?
 WHERE Name = ?;

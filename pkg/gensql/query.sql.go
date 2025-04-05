@@ -56,6 +56,10 @@ func (q *Queries) CreateApplicationFileTable(ctx context.Context) error {
 const createApplicationVersion = `-- name: CreateApplicationVersion :exec
 INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
 VALUES (?, ?, ?, ?)
+    ON CONFLICT(Name) DO UPDATE SET
+    Major = EXCLUDED.Major,
+    Minor = EXCLUDED.Minor,
+    Patch = EXCLUDED.Patch
 `
 
 type CreateApplicationVersionParams struct {
