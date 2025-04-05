@@ -31,7 +31,11 @@ WHERE Application = ?;
 
 -- name: CreateApplicationVersion :exec
 INSERT INTO ApplicationVersion (Name, Major, Minor, Patch)
-VALUES (?, ?, ?, ?);
+VALUES (?, ?, ?, ?)
+    ON CONFLICT(Name) DO UPDATE SET
+    Major = EXCLUDED.Major,
+    Minor = EXCLUDED.Minor,
+    Patch = EXCLUDED.Patch;
 
 -- name: UpdateApplicationVersion :exec
 UPDATE ApplicationVersion SET Major = ?, Minor = ?, Patch = ?
