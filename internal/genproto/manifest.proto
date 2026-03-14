@@ -8,6 +8,7 @@ message Manifest {
   string version = 1;
   repeated File files = 2;
   repeated Bundle bundles = 3;
+  string rebase = 4;
 }
 
 message File {
